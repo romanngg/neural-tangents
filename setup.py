@@ -29,7 +29,7 @@ INSTALL_REQUIRES = [
     'jax>=0.4.25',
     'frozendict>=2.4.0',
     'tensorflow>=2.16.1',
-    'keras>=3.0.5',
+    'keras>=3.1.1',
     'tf2jax @ git+https://github.com/google-deepmind/tf2jax',
 ]
 
