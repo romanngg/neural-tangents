@@ -25,6 +25,9 @@ import numpy as np
 import tensorflow as tf
 
 
+jax.config.update("jax_numpy_rank_promotion", "warn")
+
+
 tf.random.set_seed(1)
 
 
