@@ -36,7 +36,7 @@ INSTALL_REQUIRES = [
 
 TESTS_REQUIRES = [
     'more-itertools',
-    'tensorflow-datasets',
+    'tensorflow-datasets @ git+https://github.com/tensorflow/datasets',
     'flax>=0.8.2',
 ]
 
