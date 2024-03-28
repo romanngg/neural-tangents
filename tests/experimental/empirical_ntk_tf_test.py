@@ -23,7 +23,7 @@ from examples.experimental import empirical_ntk_tf
 class EmpiricalNtkTfTest(absltest.TestCase):
 
   def test_empirical_ntk_tf_test(self):
-    with jax.rank_promotion('warn'):
+    with jax.numpy_rank_promotion('warn'):
       empirical_ntk_tf.main(None)
 
 
