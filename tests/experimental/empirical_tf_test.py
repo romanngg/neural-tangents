@@ -25,9 +25,6 @@ import numpy as np
 import tensorflow as tf
 
 
-jax.config.update("jax_numpy_rank_promotion", "warn")
-
-
 tf.random.set_seed(1)
 
 
@@ -288,10 +285,11 @@ class EmpiricalTfTest(parameterized.TestCase):
       diagonal_axes,
       vmap_axes,
   ):
-    f = f(classes=1, input_shape=input_shape, weights=None)
-    f.build((None, *input_shape))
-    f_jax, params = experimental.get_apply_fn_and_params(f)
-    self._compare_ntks(f, f_jax, params, trace_axes, diagonal_axes, vmap_axes)
+    with jax.numpy_rank_promotion("warn"):
+      f = f(classes=1, input_shape=input_shape, weights=None)
+      f.build((None, *input_shape))
+      f_jax, params = experimental.get_apply_fn_and_params(f)
+      self._compare_ntks(f, f_jax, params, trace_axes, diagonal_axes, vmap_axes)
 
   @parameterized.product(
       input_shape=[
@@ -316,15 +314,16 @@ class EmpiricalTfTest(parameterized.TestCase):
       diagonal_axes,
       vmap_axes,
   ):
-    f = keras.Sequential()
-    f.add(keras.layers.Conv2D(4, (3, 3), activation='relu'))
-    f.add(keras.layers.Conv2D(2, (2, 2), activation='relu'))
-    f.add(keras.layers.Flatten())
-    f.add(keras.layers.Dense(2))
-
-    f.build((None, *input_shape))
-    f_jax, params = experimental.get_apply_fn_and_params(f)
-    self._compare_ntks(f, f_jax, params, trace_axes, diagonal_axes, vmap_axes)
+    with jax.numpy_rank_promotion("warn"):
+      f = keras.Sequential()
+      f.add(keras.layers.Conv2D(4, (3, 3), activation='relu'))
+      f.add(keras.layers.Conv2D(2, (2, 2), activation='relu'))
+      f.add(keras.layers.Flatten())
+      f.add(keras.layers.Dense(2))
+  
+      f.build((None, *input_shape))
+      f_jax, params = experimental.get_apply_fn_and_params(f)
+      self._compare_ntks(f, f_jax, params, trace_axes, diagonal_axes, vmap_axes)
 
   @parameterized.product(
       f_f_jax=[
