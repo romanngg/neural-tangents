@@ -1142,7 +1142,7 @@ def max_learning_rate(
 
   if _is_on_cpu(ntk_train_train):
     max_eva = sp.linalg.eigvalsh(ntk_train_train,
-                                 subset_by_index=(ntk_train_train.shape[0] - 1,))  # pytype: disable=attribute-error  # jax-ndarray
+                                 subset_by_index=(ntk_train_train.shape[0] - 1,) * 2)  # pytype: disable=attribute-error  # jax-ndarray
   else:
     max_eva = jnp.linalg.eigvalsh(ntk_train_train)[-1]
   lr = 2 * (1 + momentum) * factor / (max_eva + eps)
