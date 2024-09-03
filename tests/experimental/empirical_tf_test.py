@@ -229,7 +229,7 @@ class EmpiricalTfTest(parameterized.TestCase):
 
     x1_jax = jnp.array(x1)
     x2_jax = jnp.array(x2)
-    params_jax = jax.tree_map(jnp.array, params)
+    params_jax = jax.tree.map(jnp.array, params)
 
     jax_ntks = [ntk_fn_i(x1_jax, x2_jax, params_jax)
                 for ntk_fn_i in jax_ntk_fns]
@@ -241,7 +241,7 @@ class EmpiricalTfTest(parameterized.TestCase):
       atol = 0.
       rtol = 5e-3
       atol_jax = 0.4
-      rtol_jax = 0.15  # TODO(romann): revisit poor TPU agreement.
+      rtol_jax = 0.15  # TODO: revisit poor TPU agreement.
     else:
       atol = 1e-5
       rtol = 1e-4
@@ -259,7 +259,7 @@ class EmpiricalTfTest(parameterized.TestCase):
   @parameterized.product(
       f=[
           _MiniResNet,
-          # # TODO(romann): MobileNet works, but takes too long to compile.
+          # # TODO: MobileNet works, but takes too long to compile.
           # keras.applications.MobileNet,
       ],
       input_shape=[

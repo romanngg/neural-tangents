@@ -22,7 +22,7 @@ The kernel function follows the API of :obj:`neural_tangents.empirical_ntk_fn`.
 Please read the respective docstring for more details.
 
 .. warning::
-  This module currently appears to have long compile times (but OK runtime),
+  This module currently appears to have long compilation times (but OK runtime),
   is prone to triggering XLA errors, and does not distinguish between trainable
   and non-trainable parameters of the model.
 
@@ -50,7 +50,7 @@ Example:
   >>> f.build((None, *x_train.shape[1:]))
   >>> _, params = nt.experimental.get_apply_fn_and_params(f)
   >>> #
-  >>> # Default setting: reducing over logits (default `trace_axes=(-1,)`;
+  >>> # Default setting: reducing over logits (default `trace_axes=(-1,)`);
   >>> # pass `vmap_axes=0` because the network is iid along the batch axis, no
   >>> # BatchNorm.
   >>> kernel_fn = nt.experimental.empirical_ntk_fn_tf(f, vmap_axes=0)
@@ -91,7 +91,7 @@ Example:
   >>> ntk_train_train_diag = ntk_fn(x_train, None, params)
 """
 
-from typing import Callable, Optional, Union
+from typing import Callable
 import warnings
 
 from jax.experimental import jax2tf
@@ -110,14 +110,14 @@ import tf2jax
 
 
 def empirical_ntk_fn_tf(
-    f: Union[tf.Module, tf.types.experimental.PolymorphicFunction, keras.Model],
+    f: tf.Module | tf.types.experimental.PolymorphicFunction | keras.Model,
     trace_axes: Axes = (-1,),
     diagonal_axes: Axes = (),
     vmap_axes: VMapAxes = None,
-    implementation: Union[NtkImplementation, int] = DEFAULT_NTK_IMPLEMENTATION,
+    implementation: NtkImplementation | int = DEFAULT_NTK_IMPLEMENTATION,
     _j_rules: bool = _DEFAULT_NTK_J_RULES,
     _s_rules: bool = _DEFAULT_NTK_S_RULES,
-    _fwd: Optional[bool] = _DEFAULT_NTK_FWD,
+    _fwd: bool | None = _DEFAULT_NTK_FWD,
 ) -> Callable[..., PyTree]:
   r"""Returns a function to draw a single sample the NTK of a given network `f`.
 
@@ -134,9 +134,9 @@ def empirical_ntk_fn_tf(
     compile times (but OK runtime), is prone to triggering XLA errors, and does
     not distinguish between trainable and non-trainable parameters of the model.
 
-  TODO(romann): support division between trainable and non-trainable variables.
+  TODO: support division between trainable and non-trainable variables.
 
-  TODO(romann): investigate slow compile times.
+  TODO: investigate slow compile times.
 
   Args:
     f:
@@ -265,7 +265,7 @@ def empirical_ntk_fn_tf(
   return ntk_fn
 
 
-def get_apply_fn_and_params(f: Union[tf.Module, keras.Model]):
+def get_apply_fn_and_params(f: tf.Module | keras.Model):
   """Converts a :class:`tf.Module` into a forward-pass `apply_fn` and `params`.
 
   Use this function to extract `params` to pass to the Tensorflow empirical NTK
