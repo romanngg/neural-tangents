@@ -14,6 +14,7 @@
 
 """Tests for `experimental/empirical_tf/empirical.py`."""
 
+import platform
 from absl.testing import absltest
 from absl.testing import parameterized
 import jax
@@ -285,6 +286,8 @@ class EmpiricalTfTest(parameterized.TestCase):
       diagonal_axes,
       vmap_axes,
   ):
+    if platform.system() == 'Darwin':
+      self.skipTest('TF <-> JAX fails on MacOS.')
     with jax.numpy_rank_promotion("warn"):
       f = f(classes=1, input_shape=input_shape, weights=None)
       f.build((None, *input_shape))
@@ -314,6 +317,8 @@ class EmpiricalTfTest(parameterized.TestCase):
       diagonal_axes,
       vmap_axes,
   ):
+    if platform.system() == 'Darwin':
+      self.skipTest('TF <-> JAX fails on MacOS.')
     with jax.numpy_rank_promotion("warn"):
       f = keras.Sequential()
       f.add(keras.layers.Conv2D(4, (3, 3), activation='relu'))
@@ -355,6 +360,8 @@ class EmpiricalTfTest(parameterized.TestCase):
       diagonal_axes,
       vmap_axes,
   ):
+    if platform.system() == 'Darwin':
+      self.skipTest('TF <-> JAX fails on MacOS.')
     f, f_jax = f_f_jax
     f = tf.function(f, input_signature=_input_signature)
     params = tf.random.normal(params_shape, seed=4)
@@ -379,6 +386,8 @@ class EmpiricalTfTest(parameterized.TestCase):
       diagonal_axes,
       vmap_axes,
   ):
+    if platform.system() == 'Darwin':
+      self.skipTest('TF <-> JAX fails on MacOS.')
     f = _MLP(input_size=5, sizes=[4, 6, 3], name='MLP')
     f_jax, params = experimental.get_apply_fn_and_params(f)
     self._compare_ntks(f, f_jax, params, trace_axes, diagonal_axes, vmap_axes)
