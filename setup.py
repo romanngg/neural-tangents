@@ -28,9 +28,9 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 INSTALL_REQUIRES = [
     'jax>=0.4.32',
     'frozendict>=2.4.4',
-    'tensorflow>=2.17',
+    'tensorflow>=2.16.2',
     'keras>=3.5.0',
-    'tf2jax @ git+https://github.com/google-deepmind/tf2jax',
+    'tf2jax>=0.3.6',
 ]
 
 
