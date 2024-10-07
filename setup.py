@@ -26,16 +26,16 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 
 INSTALL_REQUIRES = [
-    'jax>=0.4.32',
-    'frozendict>=2.4.4',
-    'tensorflow>=2.16.2',
-    'keras>=3.5.0',
+    'jax>=0.4.34',
+    'frozendict>=2.4.5',
+    'tensorflow>=2.17',
+    'keras>=3.6.0',
     'tf2jax>=0.3.6',
 ]
 
 
 TESTS_REQUIRES = [
-    'more-itertools>=10.4.0',
+    'more-itertools>=10.5.0',
     'tensorflow-datasets>=4.9.6',
     'flax>=0.9.0',
 ]
